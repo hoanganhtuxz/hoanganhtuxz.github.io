@@ -1,0 +1,443 @@
+export interface CVData {
+  personal: {
+    name: string;
+    title: string;
+    birthday: string;
+    phone: string;
+    email: string;
+    github: string;
+    location: string;
+  };
+  objective: string;
+  skills: {
+    technical: string[];
+    soft: string[];
+  };
+  experience: {
+    title: string;
+    company: string;
+    period: string;
+    descriptions: string[];
+  }[];
+  projects: {
+    name: string;
+    period: string;
+    description?: string;
+    link?: string;
+    details?: string[];
+  }[];
+  education: {
+    degree: string;
+    school: string;
+    year: string;
+    grade: string;
+  };
+}
+
+export interface Translations {
+  nav: {
+    about: string;
+    experience: string;
+    projects: string;
+    education: string;
+    skills: string;
+    contact: string;
+  };
+  sections: {
+    objective: string;
+    technicalSkills: string;
+    softSkills: string;
+    experience: string;
+    projects: string;
+    education: string;
+    contact: string;
+  };
+  labels: {
+    birthday: string;
+    phone: string;
+    email: string;
+    github: string;
+    location: string;
+    grade: string;
+    viewProject: string;
+  };
+}
+
+export const cvDataVI: CVData = {
+  personal: {
+    name: "Hoàng Anh Tú",
+    title: "Lập Trình Viên Web",
+    birthday: "26/03/2001",
+    phone: "0966867288",
+    email: "tuhoang260301@gmail.com",
+    github: "https://github.com/hoanganhtuxz",
+    location: "Phú Mỹ, Phú Thọ",
+  },
+  objective:
+    "Nỗ lực trau dồi kỹ năng, sẵn sàng học cái mới để thích nghi nhanh, hoàn thành mục tiêu công việc và cải thiện bản thân; đồng thời chủ động tự học thêm ngoại ngữ (tiếng Trung) để mở rộng khả năng phối hợp và nắm bắt kiến thức.",
+  skills: {
+    technical: [
+      "Từng làm quản lý Team dưới 10 thành viên",
+      "Có các kỹ năng về lập trình Website liên quan tới Javascript",
+      "Thành thạo tin học văn phòng (Word, Excel, PowerPoint,...)",
+    ],
+    soft: [
+      "Sử dụng các công cụ AI như ChatGPT, Claude,... vào trong công việc",
+      "Kỹ năng làm việc nhóm",
+      "Tư duy phân tích và giải quyết các vấn đề",
+      "Tự tìm hiểu và học hỏi cái mới",
+    ],
+  },
+  experience: [
+    {
+      title: "Frontend Developer",
+      company: "Công ty Cổ phần Công nghệ và Truyền thông AIV Group",
+      period: "2021-2024",
+      descriptions: [
+        "Trực tiếp tham gia đánh giá và thử nghiệm các tính năng mới để đảm bảo web tương thích với các tính năng hiện có.",
+        "Phối hợp với các lập trình viên và khách hàng để đáp ứng các yêu cầu, mục tiêu và chức năng mong muốn của dự án.",
+        "Nghiên cứu, phát triển công nghệ mới để ứng dụng xây dựng các sản phẩm mới.",
+      ],
+    },
+    {
+      title: "Backend & Frontend Developer",
+      company: "Công ty Cổ phần Tập đoàn Chuyển đổi số NextPay",
+      period: "2024-Hiện tại",
+      descriptions: [
+        "Phát triển và bảo trì các website nội bộ, cũng như các sản phẩm số thuộc nhiều dự án khác nhau của công ty.",
+        "Tối ưu luồng người dùng và cải thiện UI/UX nhằm nâng cao trải nghiệm và hiệu quả sử dụng của sản phẩm.",
+        "Tham gia đánh giá, kiểm thử tính năng mới, đảm bảo khả năng tương thích và ổn định với hệ thống hiện tại.",
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: "Nền tảng phát triển Chatbot AI",
+      period: "1/2023 - 7/2024",
+      description:
+        "AI hỗ trợ tự động trả lời tin nhắn và chăm sóc khách hàng qua các nền tảng (Zalo, Facebook, Website). Giúp sản phẩm lọt vào vòng trung khảo giải 'Nhân tài đất Việt'.",
+      link: "https://mindmaid.ai/",
+    },
+    {
+      name: "Bộ quét đọc báo & theo dõi báo chí",
+      period: "1/2021 - 12/2021",
+      link: "https://web.vnalert.vn/",
+    },
+    {
+      name: "Sách điện tử",
+      period: "7/2022 - 8/2022",
+      link: "https://sachdientu.hagiang.gov.vn/",
+    },
+    {
+      name: "Chợ mua bán bài viết bằng NFT ContentBid",
+      period: "2/2022 - 12/2022",
+    },
+    {
+      name: "Phần mềm quản lý nội bộ My NextPay",
+      period: "08/2024 - Hiện tại",
+    },
+    {
+      name: "Phần mềm quản lý cho cộng tác viên NextAgent",
+      period: "03/2025 - Hiện tại",
+    },
+    {
+      name: "Hệ thống thống kê và phân tích thiết bị TingBox/VietQR",
+      period: "10/2024 - Hiện tại",
+    },
+  ],
+  education: {
+    degree: "Công nghệ Thông tin",
+    school: "Đại học Giao Thông Vận Tải",
+    year: "2024",
+    grade: "Khá",
+  },
+};
+
+export const cvDataEN: CVData = {
+  personal: {
+    name: "Hoang Anh Tu",
+    title: "Web Developer",
+    birthday: "March 26, 2001",
+    phone: "+84 966 867 288",
+    email: "tuhoang260301@gmail.com",
+    github: "https://github.com/hoanganhtuxz",
+    location: "Phu My, Phu Tho, Vietnam",
+  },
+  objective:
+    "Striving to improve skills, ready to learn new things to adapt quickly, achieve work goals and improve myself; while proactively learning foreign languages (Chinese) to expand collaboration capabilities and knowledge acquisition.",
+  skills: {
+    technical: [
+      "Experience managing a team of under 10 members",
+      "Web development skills related to Javascript",
+      "Proficient in office software (Word, Excel, PowerPoint,...)",
+    ],
+    soft: [
+      "Using AI tools like ChatGPT, Claude,... in work",
+      "Teamwork skills",
+      "Analytical thinking and problem-solving",
+      "Self-learning and exploring new things",
+    ],
+  },
+  experience: [
+    {
+      title: "Frontend Developer",
+      company: "AIV Group Technology and Communications JSC",
+      period: "2021-2024",
+      descriptions: [
+        "Directly participated in evaluating and testing new features to ensure web compatibility with existing features.",
+        "Collaborated with developers and clients to meet project requirements, goals, and desired functionalities.",
+        "Researched and developed new technologies to apply in building new products.",
+      ],
+    },
+    {
+      title: "Backend & Frontend Developer",
+      company: "NextPay Digital Transformation Group JSC",
+      period: "2024-Present",
+      descriptions: [
+        "Developed and maintained internal websites, as well as digital products for various company projects.",
+        "Optimized user flows and improved UI/UX to enhance product experience and efficiency.",
+        "Participated in evaluating and testing new features, ensuring compatibility and stability with current systems.",
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: "AI Chatbot Development Platform",
+      period: "Jan 2023 - Jul 2024",
+      description:
+        "AI supporting automatic message replies and customer care through platforms (Zalo, Facebook, Website). Helped the product reach the semi-finals of the 'Vietnamese Talents' award.",
+      link: "https://mindmaid.ai/",
+    },
+    {
+      name: "News Scanner & Media Monitoring",
+      period: "Jan 2021 - Dec 2021",
+      link: "https://web.vnalert.vn/",
+    },
+    {
+      name: "E-Book Platform",
+      period: "Jul 2022 - Aug 2022",
+      link: "https://sachdientu.hagiang.gov.vn/",
+    },
+    {
+      name: "NFT Article Marketplace ContentBid",
+      period: "Feb 2022 - Dec 2022",
+    },
+    {
+      name: "Internal Management Software My NextPay",
+      period: "Aug 2024 - Present",
+    },
+    {
+      name: "Collaborator Management Software NextAgent",
+      period: "Mar 2025 - Present",
+    },
+    {
+      name: "TingBox/VietQR Device Analytics System",
+      period: "Oct 2024 - Present",
+    },
+  ],
+  education: {
+    degree: "Information Technology",
+    school: "University of Transport and Communications",
+    year: "2024",
+    grade: "Good",
+  },
+};
+
+export const cvDataCN: CVData = {
+  personal: {
+    name: "黄英秀",
+    title: "网页开发工程师",
+    birthday: "2001年3月26日",
+    phone: "+84 966 867 288",
+    email: "tuhoang260301@gmail.com",
+    github: "https://github.com/hoanganhtuxz",
+    location: "越南富寿省富美",
+  },
+  objective:
+    "努力提升技能,随时准备学习新事物以快速适应,完成工作目标并提升自我;同时主动学习外语(中文)以扩展合作能力和知识获取。",
+  skills: {
+    technical: [
+      "曾管理10人以下团队",
+      "具备与Javascript相关的网站开发技能",
+      "熟练使用办公软件(Word、Excel、PowerPoint等)",
+    ],
+    soft: [
+      "在工作中使用ChatGPT、Claude等AI工具",
+      "团队合作技能",
+      "分析思维和问题解决能力",
+      "自主学习和探索新事物",
+    ],
+  },
+  experience: [
+    {
+      title: "前端开发工程师",
+      company: "AIV集团科技传媒股份公司",
+      period: "2021-2024",
+      descriptions: [
+        "直接参与评估和测试新功能,确保网站与现有功能兼容。",
+        "与开发人员和客户合作,满足项目需求、目标和期望功能。",
+        "研究和开发新技术,应用于构建新产品。",
+      ],
+    },
+    {
+      title: "全栈开发工程师",
+      company: "NextPay数字化转型集团股份公司",
+      period: "2024-至今",
+      descriptions: [
+        "开发和维护内部网站,以及公司各项目的数字产品。",
+        "优化用户流程,改进UI/UX以提升产品体验和效率。",
+        "参与评估和测试新功能,确保与现有系统的兼容性和稳定性。",
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: "AI聊天机器人开发平台",
+      period: "2023年1月 - 2024年7月",
+      description:
+        "AI支持通过各平台(Zalo、Facebook、网站)自动回复消息和客户服务。帮助产品进入'越南人才'奖半决赛。",
+      link: "https://mindmaid.ai/",
+    },
+    {
+      name: "新闻扫描与媒体监测",
+      period: "2021年1月 - 2021年12月",
+      link: "https://web.vnalert.vn/",
+    },
+    {
+      name: "电子书平台",
+      period: "2022年7月 - 2022年8月",
+      link: "https://sachdientu.hagiang.gov.vn/",
+    },
+    {
+      name: "NFT文章交易市场ContentBid",
+      period: "2022年2月 - 2022年12月",
+    },
+    {
+      name: "内部管理软件 My NextPay",
+      period: "2024年8月 - 至今",
+    },
+    {
+      name: "合作伙伴管理软件 NextAgent",
+      period: "2025年3月 - 至今",
+    },
+    {
+      name: "TingBox/VietQR设备分析系统",
+      period: "2024年10月 - 至今",
+    },
+  ],
+  education: {
+    degree: "信息技术",
+    school: "交通运输大学",
+    year: "2024",
+    grade: "良好",
+  },
+};
+
+export const translationsVI: Translations = {
+  nav: {
+    about: "Giới thiệu",
+    experience: "Kinh nghiệm",
+    projects: "Dự án",
+    education: "Học vấn",
+    skills: "Kỹ năng",
+    contact: "Liên hệ",
+  },
+  sections: {
+    objective: "Mục tiêu",
+    technicalSkills: "Kỹ năng chuyên môn",
+    softSkills: "Kỹ năng mềm",
+    experience: "Kinh nghiệm làm việc",
+    projects: "Các dự án",
+    education: "Học vấn",
+    contact: "Thông tin liên hệ",
+  },
+  labels: {
+    birthday: "Ngày sinh",
+    phone: "Điện thoại",
+    email: "Email",
+    github: "GitHub",
+    location: "Địa chỉ",
+    grade: "Xếp loại",
+    viewProject: "Xem dự án",
+  },
+};
+
+export const translationsEN: Translations = {
+  nav: {
+    about: "About",
+    experience: "Experience",
+    projects: "Projects",
+    education: "Education",
+    skills: "Skills",
+    contact: "Contact",
+  },
+  sections: {
+    objective: "Objective",
+    technicalSkills: "Technical Skills",
+    softSkills: "Soft Skills",
+    experience: "Work Experience",
+    projects: "Projects",
+    education: "Education",
+    contact: "Contact Information",
+  },
+  labels: {
+    birthday: "Birthday",
+    phone: "Phone",
+    email: "Email",
+    github: "GitHub",
+    location: "Location",
+    grade: "Grade",
+    viewProject: "View Project",
+  },
+};
+
+export const translationsCN: Translations = {
+  nav: {
+    about: "关于",
+    experience: "经验",
+    projects: "项目",
+    education: "教育",
+    skills: "技能",
+    contact: "联系",
+  },
+  sections: {
+    objective: "目标",
+    technicalSkills: "专业技能",
+    softSkills: "软技能",
+    experience: "工作经验",
+    projects: "项目",
+    education: "教育背景",
+    contact: "联系方式",
+  },
+  labels: {
+    birthday: "出生日期",
+    phone: "电话",
+    email: "邮箱",
+    github: "GitHub",
+    location: "地址",
+    grade: "等级",
+    viewProject: "查看项目",
+  },
+};
+
+export const getCVData = (lang: string): CVData => {
+  switch (lang) {
+    case "en":
+      return cvDataEN;
+    case "cn":
+      return cvDataCN;
+    default:
+      return cvDataVI;
+  }
+};
+
+export const getTranslations = (lang: string): Translations => {
+  switch (lang) {
+    case "en":
+      return translationsEN;
+    case "cn":
+      return translationsCN;
+    default:
+      return translationsVI;
+  }
+};
