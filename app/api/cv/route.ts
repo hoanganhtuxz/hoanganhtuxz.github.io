@@ -4,7 +4,6 @@ import path from 'path';
 import { cvDataVI, cvDataEN, cvDataCN } from '@/data/cv-data';
 import { defaultLanguages } from '@/contexts/language-context';
 
-export const dynamic = 'force-static';
 
 const DB_PATH = path.join(process.cwd(), 'data', 'database.json');
 
