@@ -24,7 +24,7 @@ export function CVSkills() {
             {translations.sections.technicalSkills}
           </h3>
           <ul className="space-y-2">
-            {cvData.skills.technical.map((skill, i) => (
+            {cvData?.skills?.technical?.map((skill, i) => (
               <li key={i} className="text-foreground/80 flex gap-2">
                 <span className="text-accent-foreground mt-1 shrink-0">•</span>
                 <span>{skill}</span>
@@ -38,7 +38,7 @@ export function CVSkills() {
             {translations.sections.softSkills}
           </h3>
           <ul className="space-y-2">
-            {cvData.skills.soft.map((skill, i) => (
+            {cvData?.skills?.soft?.map((skill, i) => (
               <li key={i} className="text-foreground/80 flex gap-2">
                 <span className="text-accent-foreground mt-1 shrink-0">•</span>
                 <span>{skill}</span>

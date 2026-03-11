@@ -5,8 +5,10 @@ import {
   useContext,
   useState,
   useEffect,
+  useCallback,
   type ReactNode,
 } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import {
   cvDataVI,
   cvDataEN,
@@ -45,98 +47,126 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined
 );
 
-const STORAGE_KEY = "editable-cv-data";
-const LANGUAGES_KEY = "cv-languages";
+const DEFAULT_ALL_DATA: Record<string, CVData> = {
+  vi: cvDataVI,
+  en: cvDataEN,
+  cn: cvDataCN,
+};
 
-// No longer relying on synchronous localStorage for initial load, data will be fetched inside useEffect.
+export function LanguageProvider({
+  children,
+  initialLang = "vi",
+  isPreview = false,
+}: {
+  children: ReactNode;
+  initialLang?: string;
+  isPreview?: boolean;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
   const [languages, setLanguages] = useState<LanguageConfig[]>(defaultLanguages);
-  const [language, setLanguageState] = useState<Language>("vi");
+  const [language, setLanguageState] = useState<Language>(initialLang);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [cvData, setCvData] = useState<CVData>(cvDataVI);
-  const [translations, setTranslations] = useState<Translations>(
-    getTranslations("vi")
+  const [cvData, setCvData] = useState<CVData>(
+    DEFAULT_ALL_DATA[initialLang] ?? cvDataVI
   );
+  const [translations, setTranslations] = useState<Translations>(
+    getTranslations(initialLang)
+  );
+  const [allData, setAllData] = useState<Record<string, CVData>>(DEFAULT_ALL_DATA);
 
-  // Data shared from API fetch
-  const [allData, setAllData] = useState<Record<string, CVData>>({
-    vi: cvDataVI,
-    en: cvDataEN,
-    cn: cvDataCN,
-  });
-
+  // Fetch live or preview data on mount
   useEffect(() => {
     async function loadData() {
       try {
-        const res = await fetch('/api/cv');
+        const endpoint = isPreview ? "/api/cv/preview" : "/api/cv";
+        const res = await fetch(endpoint, { cache: "no-store" });
         if (res.ok) {
           const dbConfig = await res.json();
-          const storedLanguages = dbConfig.languages || defaultLanguages;
+          const storedLanguages: LanguageConfig[] = dbConfig.languages || defaultLanguages;
           setLanguages(storedLanguages);
-          
-          const dbAllData = dbConfig.allCVData || { vi: cvDataVI, en: cvDataEN, cn: cvDataCN };
+
+          const dbAllData: Record<string, CVData> = dbConfig.allCVData || DEFAULT_ALL_DATA;
           setAllData(dbAllData);
-          
-          const savedLang = (localStorage.getItem("cv-language") as Language) || "vi";
-          // Check if the saved lang exists in our config
-          const isValid = storedLanguages.some((l: LanguageConfig) => l.code === savedLang);
-          const initialLang = isValid ? savedLang : "vi";
-          
-          setLanguageState(initialLang);
-          setCvData(dbAllData[initialLang] || cvDataVI);
-          setTranslations(getTranslations(initialLang));
+
+          const isValid = storedLanguages.some((l) => l.code === initialLang);
+          const resolvedLang = isValid ? initialLang : "vi";
+
+          setLanguageState(resolvedLang);
+          setCvData(dbAllData[resolvedLang] ?? cvDataVI);
+          setTranslations(getTranslations(resolvedLang));
+
+          if (!isValid && initialLang !== "vi") {
+            router.replace("/vi");
+          }
         }
       } catch (e) {
         console.error("Failed to load CV database", e);
       }
     }
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Listen for storage changes (for language preference syncing between tabs)
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "cv-language" && e.newValue) {
-        setLanguageState(e.newValue);
-        setCvData(allData[e.newValue] || cvDataVI);
-        setTranslations(getTranslations(e.newValue));
+  // ── postMessage receiver (preview mode only) ──────────────────────────────
+  const handlePreviewMessage = useCallback(
+    (event: MessageEvent) => {
+      // Only accept messages from same origin
+      if (event.origin !== window.location.origin) return;
+
+      const { type, lang, allCVData, languages: newLanguages } = event.data || {};
+      if (type !== "CV_PREVIEW_UPDATE") return;
+
+      if (allCVData) {
+        setAllData(allCVData);
+        const targetLang = lang || language;
+        if (allCVData[targetLang]) {
+          setCvData(allCVData[targetLang]);
+        }
       }
-    };
-    
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [allData]);
+      if (newLanguages?.length) {
+        setLanguages(newLanguages);
+      }
+    },
+    [language]
+  );
+
+  useEffect(() => {
+    if (!isPreview) return;
+    window.addEventListener("message", handlePreviewMessage);
+    // Signal to parent that iframe is ready to receive messages
+    window.parent.postMessage({ type: "CV_PREVIEW_READY" }, "*");
+    return () => window.removeEventListener("message", handlePreviewMessage);
+  }, [isPreview, handlePreviewMessage]);
+  // ─────────────────────────────────────────────────────────────────────────
 
   const setLanguage = (lang: Language) => {
+    if (lang === language) return;
+
     setIsTransitioning(true);
-    localStorage.setItem("cv-language", lang);
+
+    const segments = pathname.split("/");
+    segments[1] = lang;
+    const newPath = segments.join("/") || `/${lang}`;
 
     setTimeout(() => {
       setLanguageState(lang);
-      setCvData(allData[lang] || cvDataVI);
+      setCvData(allData[lang] ?? cvDataVI);
       setTranslations(getTranslations(lang));
-
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 300);
+      router.push(newPath);
+      setTimeout(() => setIsTransitioning(false), 300);
     }, 300);
   };
 
   const addLanguage = (config: LanguageConfig) => {
-    const newLanguages = [...languages, config];
-    setLanguages(newLanguages);
+    setLanguages((prev) => [...prev, config]);
   };
 
   const removeLanguage = (code: string) => {
-    if (["vi", "en", "cn"].includes(code)) return; // Prevent deleting core languages
-    
-    const newLanguages = languages.filter(l => l.code !== code);
-    setLanguages(newLanguages);
-    
-    if (language === code) {
-      setLanguage("vi");
-    }
+    if (["vi", "en", "cn"].includes(code)) return;
+    setLanguages((prev) => prev.filter((l) => l.code !== code));
+    if (language === code) setLanguage("vi");
   };
 
   return (

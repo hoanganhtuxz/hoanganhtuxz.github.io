@@ -18,7 +18,7 @@ export function CVExperience() {
         {translations.sections.experience}
       </h2>
       <div className="space-y-8">
-        {cvData.experience.map((exp, index) => (
+        {cvData?.experience?.map((exp, index) => (
           <div
             key={index}
             className="group relative"

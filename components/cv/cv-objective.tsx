@@ -18,7 +18,7 @@ export function CVObjective() {
         {translations.sections.objective}
       </h2>
       <p className="text-foreground/90 leading-relaxed text-lg">
-        {cvData.objective}
+        {cvData?.objective}
       </p>
     </section>
   );

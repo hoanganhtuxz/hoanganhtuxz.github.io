@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAdminAuth } from "@/contexts/admin-auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Lock, User, AlertCircle, ArrowLeft } from "lucide-react";
+import { Lock, User, AlertCircle, ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminLoginPage() {
@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/admin");
+      router.replace("/admin");
     }
   }, [isAuthenticated, router]);
 
@@ -31,12 +31,24 @@ export default function AdminLoginPage() {
 
     const success = login(username, password);
     if (success) {
-      router.push("/admin");
+      router.replace("/admin");
     } else {
       setError("Invalid username or password");
       setIsLoading(false);
     }
   };
+
+  // Show redirect screen immediately — prevents flash of login form
+  if (isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex items-center gap-3 text-muted-foreground">
+          <Loader2 className="w-5 h-5 animate-spin" />
+          <span className="font-medium">Redirecting to dashboard...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -114,10 +126,14 @@ export default function AdminLoginPage() {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full gap-2"
               disabled={isLoading}
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Signing in...</>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
         </div>

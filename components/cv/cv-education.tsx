@@ -24,14 +24,14 @@ export function CVEducation() {
         </div>
         <div>
           <h3 className="font-semibold text-foreground">
-            {cvData.education.degree}
+            {cvData?.education?.degree}
           </h3>
-          <p className="text-muted-foreground">{cvData.education.school}</p>
+          <p className="text-muted-foreground">{cvData?.education?.school}</p>
           <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-            <span>{cvData.education.year}</span>
+            <span>{cvData?.education?.year}</span>
             <span>•</span>
             <span>
-              {translations.labels.grade}: {cvData.education.grade}
+              {translations.labels.grade}: {cvData?.education?.grade}
             </span>
           </div>
         </div>

@@ -25,7 +25,7 @@ export function CVProjects() {
         {translations.sections.projects}
       </h2>
       <div className="grid gap-4">
-        {cvData.projects.map((project, index) => {
+        {cvData?.projects?.map((project, index) => {
           const isExpanded = expandedIndex === index;
           const hasDetails = project.details && project.details.length > 0;
 
